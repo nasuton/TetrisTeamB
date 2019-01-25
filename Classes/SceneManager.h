@@ -10,6 +10,7 @@ public:
 	virtual ~SceneManager();
 
 	//‡ŸƒV[ƒ“‚ğ’Ç‰Á‚µ‚Ä‚¢‚­
+	static void CreateGameScene();
 
 private:
 	template <class Scene>
