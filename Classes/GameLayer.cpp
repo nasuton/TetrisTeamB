@@ -36,9 +36,9 @@ void GameLayer::makeField()
 
 	for (int i = 0; i < FIELD_HEIGHT; i++)
 	{
-		for (int k = 0; k <= FIELD_WIDTH_RIGHT_INDEX - FIELD_WIDTH_LEFT_INDEX; i++)
+		for (int k = 0; k <= FIELD_WIDTH_RIGHT_INDEX - FIELD_WIDTH_LEFT_INDEX; k++)
 		{
-			LabelTTF* field = LabelTTF::create("□", "Arial", 12.0f);
+			LabelTTF* field = LabelTTF::create(u8"□", "Arial", 12.0f);
 			field->setPosition(winSize.width * (0.32 + k * 0.04), winSize.height * (0.1 + i * 0.04));
 			field->setColor(Color3B(128, 128, 128));
 			this->addChild(field);
@@ -50,19 +50,19 @@ void GameLayer::makeControlButton()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 
-	LabelTTF* moveLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
+	LabelTTF* moveLeftLabel = LabelTTF::create(u8"左", "Arial", 24.0f);
 	MenuItemLabel* moveLeft = MenuItemLabel::create(moveLeftLabel, this, menu_selector(GameLayer::tapMoveLeft));
 	moveLeft->setPosition(winSize.width * 0.1, winSize.height * 0.2);
 
-	LabelTTF* moveRightLabel = LabelTTF::create("右", "Arial", 24.0f);
+	LabelTTF* moveRightLabel = LabelTTF::create(u8"右", "Arial", 24.0f);
 	MenuItemLabel* moveRight = MenuItemLabel::create(moveRightLabel, this, menu_selector(GameLayer::tapMoveRight));
 	moveRight->setPosition(winSize.width * 0.2f, winSize.height * 0.2);
 
-	LabelTTF* turnLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
+	LabelTTF* turnLeftLabel = LabelTTF::create(u8"左", "Arial", 24.0f);
 	MenuItemLabel* turnLeft = MenuItemLabel::create(turnLeftLabel, this, menu_selector(GameLayer::tapTurnLeft));
 	turnLeft->setPosition(winSize.width * 0.8, winSize.height * 0.2);
 
-	LabelTTF* turnRightLabel = LabelTTF::create("右", "Arial", 24.0f);
+	LabelTTF* turnRightLabel = LabelTTF::create(u8"右", "Arial", 24.0f);
 	MenuItemLabel* turnRigth = MenuItemLabel::create(turnRightLabel, this, menu_selector(GameLayer::tapTurnRight));
 	turnRigth->setPosition(winSize.width * 0.9, winSize.height * 0.2);
 
@@ -115,7 +115,7 @@ void GameLayer::makeChunk()
 		{
 			if (game->chunk->blocks[i][k] != NULL)
 			{
-				LabelTTF* label = LabelTTF::create("■", "Arial", 12.0f);
+				LabelTTF* label = LabelTTF::create(u8"■", "Arial", 12.0f);
 				int x = CHUNK_START_X - FIELD_WIDTH_LEFT_INDEX + k;
 				// blocksの座標と画面の座標の開始位置が異なるので調整
 				int y = (FIELD_HEIGHT - 1) - (CHUNK_START_Y + i);
