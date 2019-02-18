@@ -4,6 +4,9 @@
 USING_NS_CC;
 using namespace std;
 
+//文字化けを防ぐおまじない
+#pragma execution_character_set("utf-8")
+
 GameLayer::GameLayer()
 {
 
@@ -38,7 +41,7 @@ void GameLayer::makeField()
 	{
 		for (int k = 0; k <= FIELD_WIDTH_RIGHT_INDEX - FIELD_WIDTH_LEFT_INDEX; k++)
 		{
-			LabelTTF* field = LabelTTF::create(u8"□", "Arial", 12.0f);
+			LabelTTF* field = LabelTTF::create("□", "Arial", 12.0f);
 			field->setPosition(winSize.width * (0.32 + k * 0.04), winSize.height * (0.1 + i * 0.04));
 			field->setColor(Color3B(128, 128, 128));
 			this->addChild(field);
@@ -50,25 +53,82 @@ void GameLayer::makeControlButton()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 
-	LabelTTF* moveLeftLabel = LabelTTF::create(u8"左", "Arial", 24.0f);
+	//表示だけのラベル作成
+	LabelTTF* moveLeftDisplay = LabelTTF::create("移動\n左　右", "Arial", 24.0f);
+	moveLeftDisplay->setPosition(Vec2(winSize.width * 0.15f, winSize.height * 0.5f));
+	this->addChild(moveLeftDisplay);
+
+	LabelTTF* moveRightDisplay = LabelTTF::create("回転", "Arial", 24.0f);
+	moveRightDisplay->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.5f));
+	this->addChild(moveRightDisplay);
+
+	LabelTTF* moveLeftLabel = LabelTTF::create("←\nor\nA", "Arial", 24.0f);
+	moveLeftLabel->setPosition(Vec2(winSize.width * 0.1f, winSize.height * 0.3f));
+	this->addChild(moveLeftLabel);
+
+	//クリックするためのボタンを作成
+/*	LabelTTF* moveLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
 	MenuItemLabel* moveLeft = MenuItemLabel::create(moveLeftLabel, this, menu_selector(GameLayer::tapMoveLeft));
 	moveLeft->setPosition(winSize.width * 0.1, winSize.height * 0.2);
 
-	LabelTTF* moveRightLabel = LabelTTF::create(u8"右", "Arial", 24.0f);
+	LabelTTF* moveRightLabel = LabelTTF::create("右", "Arial", 24.0f);
 	MenuItemLabel* moveRight = MenuItemLabel::create(moveRightLabel, this, menu_selector(GameLayer::tapMoveRight));
 	moveRight->setPosition(winSize.width * 0.2f, winSize.height * 0.2);
 
-	LabelTTF* turnLeftLabel = LabelTTF::create(u8"左", "Arial", 24.0f);
+	LabelTTF* turnLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
 	MenuItemLabel* turnLeft = MenuItemLabel::create(turnLeftLabel, this, menu_selector(GameLayer::tapTurnLeft));
 	turnLeft->setPosition(winSize.width * 0.8, winSize.height * 0.2);
 
-	LabelTTF* turnRightLabel = LabelTTF::create(u8"右", "Arial", 24.0f);
+	LabelTTF* turnRightLabel = LabelTTF::create("右", "Arial", 24.0f);
 	MenuItemLabel* turnRigth = MenuItemLabel::create(turnRightLabel, this, menu_selector(GameLayer::tapTurnRight));
 	turnRigth->setPosition(winSize.width * 0.9, winSize.height * 0.2);
 
 	Menu* menu = Menu::create(moveLeft, moveRight, turnLeft, turnRigth, NULL);
 	menu->setPosition(Point::ZERO);
 	this->addChild(menu);
+	*/
+
+	//キーボード入力でもできるようにする
+	auto listener = EventListenerKeyboard::create();
+	//押された瞬間のイベント取得
+	listener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event* _event)-> bool {
+
+		//矢印キーがなかった場合のために[W,A,S,D]も使えるようにしておく
+		switch (keyCode)
+		{
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		case EventKeyboard::KeyCode::KEY_A:
+			game->moveLeft();
+			moveChunk();
+			break;
+
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		case EventKeyboard::KeyCode::KEY_D:
+			game->moveRight();
+			moveChunk();
+			break;
+
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		case EventKeyboard::KeyCode::KEY_W:
+			game->chunk->turnRight();
+			moveChunk();
+			break;
+
+		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		case EventKeyboard::KeyCode::KEY_S:
+			game->chunk->turnLeft();
+			moveChunk();
+			break;
+
+		default:
+			break;
+		}
+
+		return true;
+	};
+
+	//上記のキーボードイベントを登録する
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 void GameLayer::tapMoveLeft(Ref* pSender)
@@ -115,15 +175,18 @@ void GameLayer::makeChunk()
 		{
 			if (game->chunk->blocks[i][k] != NULL)
 			{
-				LabelTTF* label = LabelTTF::create(u8"■", "Arial", 12.0f);
+				//LabelTTF* label = LabelTTF::create("■", "Arial", 12.0f);
+				Sprite* _block = Sprite::create("jet_block.png");
+				_block->setContentSize(Size(12.0f, 12.0f));
 				int x = CHUNK_START_X - FIELD_WIDTH_LEFT_INDEX + k;
 				// blocksの座標と画面の座標の開始位置が異なるので調整
 				int y = (FIELD_HEIGHT - 1) - (CHUNK_START_Y + i);
 				log("[makeChunk]=== x:%d y:%d", x, y);
-				label->setPosition(winSize.width * (0.32 + x * 0.04), winSize.height * (0.1 + y * 0.04));
-				label->setTag(number);
+				_block->setPosition(winSize.width * (0.32 + x * 0.04), winSize.height * (0.1 + y * 0.04));
+				_block->setTag(number);
 				number++;
-				this->addChild(label);
+				this->addChild(_block);
+				//this->addChild(label);
 			}
 		}
 	}
