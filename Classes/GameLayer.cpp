@@ -24,6 +24,12 @@ bool GameLayer::init()
 		return false;
 	}
 
+	Size winSize = Director::getInstance()->getWinSize();
+	
+	Sprite* backGround = Sprite::create("background.png");
+	backGround->setPosition(winSize.width * 0.5f, winSize.height * 0.5f);
+	this->addChild(backGround);
+
 	makeField();
 
 	makeControlButton();
@@ -41,9 +47,9 @@ void GameLayer::makeField()
 	{
 		for (int k = 0; k <= FIELD_WIDTH_RIGHT_INDEX - FIELD_WIDTH_LEFT_INDEX; k++)
 		{
-			LabelTTF* field = LabelTTF::create("□", "Arial", 12.0f);
+			LabelTTF* field = LabelTTF::create("□", "Arial", 60.0f);
 			field->setPosition(winSize.width * (0.32 + k * 0.04), winSize.height * (0.1 + i * 0.04));
-			field->setColor(Color3B(128, 128, 128));
+			field->setColor(Color3B(0, 0, 0));
 			this->addChild(field);
 		}
 	}
@@ -168,6 +174,9 @@ void GameLayer::makeChunk()
 	game->makeChunk(CHUNK_START_X, CHUNK_START_Y, numbers);
 
 	Size winSize = Director::getInstance()->getWinSize();
+
+	int rand = random<int>(0, 2);
+	Sprite* _block = nullptr;
 	
 	for (int i = 0; i < CHUNK_HEIGHT; i++)
 	{
@@ -176,8 +185,23 @@ void GameLayer::makeChunk()
 			if (game->chunk->blocks[i][k] != NULL)
 			{
 				//LabelTTF* label = LabelTTF::create("■", "Arial", 12.0f);
-				Sprite* _block = Sprite::create("jet_block.png");
-				_block->setContentSize(Size(12.0f, 12.0f));
+				switch (rand)
+				{
+				case 0:
+					_block = Sprite::create("jet_block.png");
+					break;
+				case 1:
+					_block = Sprite::create("beryl_block.png");
+					break;
+
+				case 2:
+					_block = Sprite::create("lava_block.png");
+					break;
+				default:
+					break;
+				}
+				
+				_block->setContentSize(Size(30.0f, 30.0f));
 				int x = CHUNK_START_X - FIELD_WIDTH_LEFT_INDEX + k;
 				// blocksの座標と画面の座標の開始位置が異なるので調整
 				int y = (FIELD_HEIGHT - 1) - (CHUNK_START_Y + i);
