@@ -1,8 +1,5 @@
 #include "GameScene.h"
 
-//文字化けしないようのおまじない
-#pragma execution_character_set("utf-8")
-
 using namespace cocos2d;
 using namespace std;
 
