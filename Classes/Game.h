@@ -1,5 +1,5 @@
-#ifndef __tetris__Game__
-#define __tetris__Game__
+#ifndef GAME_h
+#define GAME_h
 
 #include "Config.h"
 #include "Block.h"
@@ -9,33 +9,33 @@
 class Game
 {
 public:
-    
-    Field* field;
-    Chunk* chunk;
-    bool* deletableLines;
+	Field* field;
+	Chunk* chunk;
+	bool* deletableLines;
 
-    Game();
-    ~Game();
-    
-    void makeChunk(int x, int y, int numbers[]);
-    
-    void moveLeft();
-    void moveRight();
-    void moveUnder();
-    
-    bool canMoveLeft();
-    bool canMoveRight();
-    bool canMoveUnder();
-    
-    void copyBlocks();
-    
-    void turnLeft();
-    void turnRight();
+public:
+	Game();
+	~Game();
 
-    bool isConflict();
-    
-    bool checkDeletableLines();
-    void deleteDeletableLines();
+	void makeChunk(int x, int y, int numbers[]);
+
+	void moveLeft();
+	void moveRight();
+	void moveUnder();
+
+	bool canMoveLeft();
+	bool canMoveRight();
+	bool canMoveUnder();
+
+	void copyBlocks();
+
+	void turnLeft();
+	void turnRight();
+
+	bool isConflict();
+
+	bool checkDeletableLines();
+	void deleteDeletableLines();
 };
 
-#endif /* defined(__tetris__Game__) */
+#endif

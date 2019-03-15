@@ -1,5 +1,5 @@
-#ifndef __tetris__Field__
-#define __tetris__Field__
+#ifndef FIELD_h
+#define FIELD_h
 
 #include "Config.h"
 #include "Chunk.h"
@@ -7,11 +7,11 @@
 class Field
 {
 public:
-    
-    Block*** blocks;
-    
-    Field();
-    ~Field();
+	Block*** blocks;
+
+public:
+	Field();
+	~Field();
 };
 
-#endif /* defined(__tetris__Field__) */
+#endif
