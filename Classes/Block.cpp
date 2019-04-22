@@ -1,8 +1,8 @@
 #include "Block.h"
 
-Block::Block(int number, int color)
-:number(number)
-,color(color)
+Block::Block(int num, int col)
+	:number(num)
+	,color(col)
 {
 }
 
@@ -10,12 +10,12 @@ Block::~Block()
 {
 }
 
-int Block::getNumber()
+int Block::GetNumber()
 {
-    return number;
+	return number;
 }
 
-int Block::getColor()
+int Block::GetColor()
 {
-    return color;
+	return color;
 }
