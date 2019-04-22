@@ -117,12 +117,18 @@ void GameLayer::makeControlButton()
 		case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		case EventKeyboard::KeyCode::KEY_W:
 			game->chunk->turnRight();
+			if (game->isConflict()) {
+				game->chunk->turnLeft();
+			}
 			moveChunk();
 			break;
 
 		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		case EventKeyboard::KeyCode::KEY_S:
 			game->chunk->turnLeft();
+			if (game->isConflict()) {
+				game->chunk->turnRight();
+			}
 			moveChunk();
 			break;
 
