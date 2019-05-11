@@ -34,7 +34,7 @@ bool TutorialLayer::init()
 		switch (keyCode)
 		{
 		case EventKeyboard::KeyCode::KEY_ENTER:
-
+			SceneManager::CreateGameScene();
 			break;
 		default:
 			break;

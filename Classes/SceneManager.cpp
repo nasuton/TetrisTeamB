@@ -15,7 +15,8 @@ SceneManager::~SceneManager()
 void SceneManager::CreateGameScene()
 {
 	Scene* nextScene = SceneCreate<GameScene>();
-	Director::getInstance()->replaceScene(nextScene);
+	auto sceneAnimation = TransitionFade::create(1.0f, nextScene, Color3B::WHITE);
+	Director::getInstance()->replaceScene(sceneAnimation);
 }
 
 void SceneManager::CreateTutorialScene()
