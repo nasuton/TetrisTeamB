@@ -26,9 +26,20 @@ bool GameLayer::init()
 
 	Size winSize = Director::getInstance()->getWinSize();
 	
+	//背景
 	Sprite* backGround = Sprite::create("background.png");
 	backGround->setPosition(winSize.width * 0.5f, winSize.height * 0.5f);
 	this->addChild(backGround);
+
+	//次のブロックの表示をするための背景
+	Sprite* nextBlockBack = Sprite::create("nextBlockBack.png");
+	nextBlockBack->setPosition(winSize.width * 0.85f, winSize.height * 0.7f);
+	this->addChild(nextBlockBack);
+
+	//スコアの背景
+	Sprite* scoreBack = Sprite::create("scoreBack.png");
+	scoreBack->setPosition(winSize.width * 0.15f, winSize.height * 0.8f);
+	this->addChild(scoreBack);
 
 	makeField();
 
@@ -60,7 +71,7 @@ void GameLayer::makeControlButton()
 	Size winSize = Director::getInstance()->getWinSize();
 
 	//表示だけのラベル作成
-	LabelTTF* moveLeftDisplay = LabelTTF::create("移動\n左　右", "Arial", 24.0f);
+/*  LabelTTF* moveLeftDisplay = LabelTTF::create("移動\n左　右", "Arial", 24.0f);
 	moveLeftDisplay->setPosition(Vec2(winSize.width * 0.15f, winSize.height * 0.5f));
 	this->addChild(moveLeftDisplay);
 
@@ -73,7 +84,7 @@ void GameLayer::makeControlButton()
 	this->addChild(moveLeftLabel);
 
 	//クリックするためのボタンを作成
-/*	LabelTTF* moveLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
+    LabelTTF* moveLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
 	MenuItemLabel* moveLeft = MenuItemLabel::create(moveLeftLabel, this, menu_selector(GameLayer::tapMoveLeft));
 	moveLeft->setPosition(winSize.width * 0.1, winSize.height * 0.2);
 
@@ -181,7 +192,7 @@ void GameLayer::makeChunk()
 
 	Size winSize = Director::getInstance()->getWinSize();
 
-	int rand = random<int>(0, 2);
+	int rand = random<int>(0, 6);
 	Sprite* _block = nullptr;
 	
 	for (int i = 0; i < CHUNK_HEIGHT; i++)
@@ -190,7 +201,6 @@ void GameLayer::makeChunk()
 		{
 			if (game->chunk->blocks[i][k] != NULL)
 			{
-				//LabelTTF* label = LabelTTF::create("■", "Arial", 12.0f);
 				switch (rand)
 				{
 				case 0:
@@ -202,6 +212,18 @@ void GameLayer::makeChunk()
 
 				case 2:
 					_block = Sprite::create("lava_block.png");
+					break;
+				case 3:
+					_block = Sprite::create("chrome_block.png");
+					break;
+				case 4:
+					_block = Sprite::create("helio_block.png");
+					break;
+				case 5:
+					_block = Sprite::create("lapis_block.png");
+					break;
+				case 6:
+					_block = Sprite::create("selenite_block.png");
 					break;
 				default:
 					break;
@@ -216,7 +238,6 @@ void GameLayer::makeChunk()
 				_block->setTag(number);
 				number++;
 				this->addChild(_block);
-				//this->addChild(label);
 			}
 		}
 	}
