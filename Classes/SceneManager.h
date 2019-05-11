@@ -12,6 +12,8 @@ public:
 	//‡ŸƒV[ƒ“‚ğ’Ç‰Á‚µ‚Ä‚¢‚­
 	static void CreateGameScene();
 
+	static void CreateTutorialScene();
+
 private:
 	template <class Scene>
 	static cocos2d::Scene* SceneCreate();

@@ -51,6 +51,12 @@
     <ClCompile Include="..\Classes\GameLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\TutorialLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TutorialScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -93,6 +99,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TutorialLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TutorialScene.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
