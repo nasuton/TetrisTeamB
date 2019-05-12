@@ -38,6 +38,8 @@ private:
 private:
 	Game* game;
 	int lastBlockNumber = 0;
+	bool isEnd;
+	cocos2d::EventListenerKeyboard* listener;
 };
 
 #endif

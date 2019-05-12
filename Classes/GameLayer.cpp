@@ -1,4 +1,5 @@
 #include "GameLayer.h"
+#include "ModalLayer.h"
 #include "SceneManager.h"
 
 USING_NS_CC;
@@ -24,6 +25,9 @@ bool GameLayer::init()
 		return false;
 	}
 
+	isEnd = false;
+	listener = nullptr;
+
 	Size winSize = Director::getInstance()->getWinSize();
 	
 	//背景
@@ -40,6 +44,13 @@ bool GameLayer::init()
 	Sprite* scoreBack = Sprite::create("scoreBack.png");
 	scoreBack->setPosition(winSize.width * 0.15f, winSize.height * 0.8f);
 	this->addChild(scoreBack);
+
+	/*
+	//TODO : ブロックの背景
+	Sprite* blockBack = Sprite::create("fieldBack.png");
+	blockBack->setPosition(winSize.width * 0.5f, winSize.height * 0.5f);
+	this->addChild(blockBack);
+	*/
 
 	makeField();
 
@@ -70,43 +81,8 @@ void GameLayer::makeControlButton()
 {
 	Size winSize = Director::getInstance()->getWinSize();
 
-	//表示だけのラベル作成
-/*  LabelTTF* moveLeftDisplay = LabelTTF::create("移動\n左　右", "Arial", 24.0f);
-	moveLeftDisplay->setPosition(Vec2(winSize.width * 0.15f, winSize.height * 0.5f));
-	this->addChild(moveLeftDisplay);
-
-	LabelTTF* moveRightDisplay = LabelTTF::create("回転", "Arial", 24.0f);
-	moveRightDisplay->setPosition(Vec2(winSize.width * 0.85f, winSize.height * 0.5f));
-	this->addChild(moveRightDisplay);
-
-	LabelTTF* moveLeftLabel = LabelTTF::create("←\nor\nA", "Arial", 24.0f);
-	moveLeftLabel->setPosition(Vec2(winSize.width * 0.1f, winSize.height * 0.3f));
-	this->addChild(moveLeftLabel);
-
-	//クリックするためのボタンを作成
-    LabelTTF* moveLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
-	MenuItemLabel* moveLeft = MenuItemLabel::create(moveLeftLabel, this, menu_selector(GameLayer::tapMoveLeft));
-	moveLeft->setPosition(winSize.width * 0.1, winSize.height * 0.2);
-
-	LabelTTF* moveRightLabel = LabelTTF::create("右", "Arial", 24.0f);
-	MenuItemLabel* moveRight = MenuItemLabel::create(moveRightLabel, this, menu_selector(GameLayer::tapMoveRight));
-	moveRight->setPosition(winSize.width * 0.2f, winSize.height * 0.2);
-
-	LabelTTF* turnLeftLabel = LabelTTF::create("左", "Arial", 24.0f);
-	MenuItemLabel* turnLeft = MenuItemLabel::create(turnLeftLabel, this, menu_selector(GameLayer::tapTurnLeft));
-	turnLeft->setPosition(winSize.width * 0.8, winSize.height * 0.2);
-
-	LabelTTF* turnRightLabel = LabelTTF::create("右", "Arial", 24.0f);
-	MenuItemLabel* turnRigth = MenuItemLabel::create(turnRightLabel, this, menu_selector(GameLayer::tapTurnRight));
-	turnRigth->setPosition(winSize.width * 0.9, winSize.height * 0.2);
-
-	Menu* menu = Menu::create(moveLeft, moveRight, turnLeft, turnRigth, NULL);
-	menu->setPosition(Point::ZERO);
-	this->addChild(menu);
-	*/
-
 	//キーボード入力でもできるようにする
-	auto listener = EventListenerKeyboard::create();
+	listener = EventListenerKeyboard::create();
 	//押された瞬間のイベント取得
 	listener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event* _event)-> bool {
 
@@ -209,7 +185,6 @@ void GameLayer::makeChunk()
 				case 1:
 					_block = Sprite::create("beryl_block.png");
 					break;
-
 				case 2:
 					_block = Sprite::create("lava_block.png");
 					break;
@@ -285,6 +260,7 @@ void GameLayer::moveChunk()
 
 void GameLayer::makeAndMoveChunk(float dt)
 {
+	if (isEnd) return;
 	makeChunk();
 	this->schedule(schedule_selector(GameLayer::moveUnder), 0.25f);
 }
@@ -340,7 +316,12 @@ void GameLayer::resetIfGameover()
 		{
 			if (game->field->blocks[i][k] != NULL)
 			{
-				SceneManager::CreateGameScene();
+				//ゲームオーバー処理
+				//SceneManager::CreateGameScene();
+				listener->setEnabled(false);
+				isEnd = true;
+				auto modal = ModalLayer::create();
+				this->addChild(modal);
 			}
 		}
 	}
