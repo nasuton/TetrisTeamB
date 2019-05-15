@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-//#include "GameScene.h"
 #include "TutorialScene.h"
 
  #define USE_AUDIO_ENGINE 1
