@@ -1,26 +1,27 @@
-#ifndef __tetris__Block__
-#define __tetris__Block__
+#ifndef BLOCK_h
+#define BLOCK_h
 
-#include <iostream>
+#include "cocos2d.h"
 
 class Block
 {
-private:
-    
-    int number;
-    int color;
-    
 public:
-    
-    enum kColor {
-        kColor_White,
-    };
-    
-    Block(int number, int color);
-    ~Block();
-    
-    int getNumber();
-    int getColor();
+	enum kColor
+	{
+		kColor_white,
+	};
+
+private:
+
+	int number;
+	int color;
+
+public:
+	Block(int num, int col);
+	~Block();
+
+	int GetNumber();
+	int GetColor();
 };
 
-#endif /* defined(__tetris__Block__) */
+#endif
