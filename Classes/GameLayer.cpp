@@ -1,5 +1,4 @@
 #include "GameLayer.h"
-#include "ModalLayer.h"
 #include "SceneManager.h"
 
 USING_NS_CC;
@@ -320,8 +319,6 @@ void GameLayer::resetIfGameover()
 				//SceneManager::CreateGameScene();
 				listener->setEnabled(false);
 				isEnd = true;
-				auto modal = ModalLayer::create();
-				this->addChild(modal);
 			}
 		}
 	}
